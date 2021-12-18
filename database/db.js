@@ -1,21 +1,25 @@
 const mongoose = require("mongoose");
 
+
+
 function connectDB(){
 
-    mongoose.connect("mongodb://localhost:27017/yourscar_rental" , {
-        useUnifiedTopology: true , 
-        useNewUrlParser: true
+mongoose.connect('mongodb://127.0.0.1:27017/yours_choice_rental',{
+    useNewUrlParser:true,
+    useUnifiedTopology : true
 })
 
-    const connection = mongoose.connection
+
+const connection = mongoose.connection
 
     connection.on('connected' , ()=>{
-        console.log('Connection Successfull')
+        console.log('Mongo DB Connection Successfull')
     })
 
     connection.on('error' , ()=>{
-        console.log('Connection Error')
+        console.log('Mongo DB Connection Error')
     })
+
 
 }
 
