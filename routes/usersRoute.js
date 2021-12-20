@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Users = require("../models/userModel");
+const User = require("../models/userModel");
 const bcryptjs= require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 router.post("/login", async(req, res) => {
     try{
         const { username, password } = req.body
-            const user = await Users.findOne({username})
+            const user = await User.findOne({username})
             
             if(!user) return res.status(400).json({msg: "This username does not exist."})
             const isMatch = await bcryptjs.compare(password, user.password)
@@ -21,9 +21,6 @@ router.post("/login", async(req, res) => {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    
-    
-    
     })
     
 
@@ -31,14 +28,14 @@ router.post("/register", async(req, res) => {
     try {
         const { username, email, password  } = req.body
         let newUserName = username.toLowerCase().replace(/ /g, '')
-        const user_name = await Users.findOne({username: newUserName})
+        const user_name = await User.findOne({username: newUserName})
         if(user_name) return res.status(400).json({msg: "This user name already exists."})
-        const user_email = await Users.findOne({email})
+        const user_email = await User.findOne({email})
         if(user_email) return res.status(400).json({msg: "This email already exists."})
         if(password.length < 6)
         return res.status(400).json({msg: "Password must be at least 6 characters."})
         const passwordHash = await bcryptjs.hash(password, 12)
-        const newUser = new Users({
+        const newUser = new User({
             username: newUserName, email, password: passwordHash
         })
         
@@ -50,8 +47,6 @@ router.post("/register", async(req, res) => {
     } catch (err) {
         return res.status(500).json({msg: err.message})
     }
-
 })
-
 module.exports = router;
 
