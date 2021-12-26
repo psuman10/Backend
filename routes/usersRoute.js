@@ -27,7 +27,7 @@ router.post("/login", async(req, res) => {
 
 router.post("/register", async(req, res) => {
     try {
-        const { username, email, password  } = req.body
+        const { username, email, gender,password  } = req.body
         let newUserName = username.toLowerCase().replace(/ /g, '')
         const user_name = await User.findOne({username: newUserName})
         if(user_name) return res.status(400).json({msg: "This username already exists."})
@@ -37,7 +37,7 @@ router.post("/register", async(req, res) => {
         return res.status(400).json({msg: "Password must be at least 6 characters."})
         const passwordHash = await bcryptjs.hash(password, 12)
         const newUser = new User({
-            username: newUserName, email, password: passwordHash
+            username: newUserName, email, gender,password: passwordHash
         })
         
         await newUser.save()
