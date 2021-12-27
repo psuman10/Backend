@@ -86,5 +86,31 @@ router.put("/test2",function(req,res){
     res.json({msg:"/deleted"})
 })
 
+router.get("/getallusers", async (req, res) => {
+    try {
+      const users = await User.find();
+      res.send(users);
+    } catch (error) {
+      return res.status(400).json(error);
+    }
+  });
+
+router.post("/editprofile", async (req, res) => {
+    try {
+      const user = await User.findOne({ _id: req.body._id });
+      user.username = req.body.username;
+      user.address = req.body.address;
+      user.email = req.body.email;
+      user.gender = req.body.gender;
+
+  
+      await user.save();
+  
+      res.send("user details updated successfully");
+    } catch (error) {
+      return res.status(400).json(error);
+    }
+  });
+
 module.exports = router;
 
