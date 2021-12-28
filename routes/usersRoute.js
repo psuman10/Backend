@@ -113,4 +113,3 @@ router.post("/editprofile", async (req, res) => {
   });
 
 module.exports = router;
-

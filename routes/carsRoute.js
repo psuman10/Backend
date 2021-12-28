@@ -21,7 +21,7 @@ router.post("/addcar", async (req, res) => {
   }
 });
 
-router.post("/editcar", async (req, res) => {
+router.put("/editcar", async (req, res) => {
   try {
     const car = await Car.findOne({ _id: req.body._id });
     car.name = req.body.name;
