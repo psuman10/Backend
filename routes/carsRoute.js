@@ -38,9 +38,9 @@ router.put("/editcar", async (req, res) => {
   }
 });
 
-router.post("/deletecar", async (req, res) => {
+router.delete("/deletecar/:carid", async (req, res) => {
   try {
-    await Car.findOneAndDelete({ _id: req.body.carid });
+    await Car.findOneAndDelete({ _id: req.params.carid });
 
     res.send("Car deleted successfully");
   } catch (error) {
