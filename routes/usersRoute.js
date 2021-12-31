@@ -12,7 +12,7 @@ router.post("/login", async(req, res) => {
         const { username, password } = req.body
             const user = await User.findOne({username})
             
-            if(!user) return res.status(400).json({msg: "This username does not exist."})
+            if(!user) return res.status(400).json({msg: "This username does not.. exist."})
             const isMatch = await bcryptjs.compare(password, user.password)
             if(!isMatch) return res.status(400).json({msg: "Password didn't match."})
           if(user){
@@ -78,6 +78,18 @@ router.get("/getallusers", async (req, res) => {
     }
   });
 
+  router.delete("/deleteusers/:userid", async (req, res) => {
+    try {
+      await User.findOneAndDelete({ _id: req.params.userid });
+      
+  
+      res.send("user has been deleted successfully");
+    } catch (error) {
+      return res.status(400).json(error);
+    }
+  });
+  
+  module.exports = router;
 
 
 
