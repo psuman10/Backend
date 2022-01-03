@@ -11,6 +11,7 @@ require("./database/db")
 
 
 app.use('/api/users/' , require('./routes/usersRoute'))
+app.use('/api/cars/' , require('./routes/carsRoute'))
 
 
 app.listen(port, () => console.log(`Node JS Server Started in Port ${port}`))
