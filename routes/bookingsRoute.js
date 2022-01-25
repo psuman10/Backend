@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require("uuid");
 const stripe = require("stripe")(
   "sk_test_51IYnC0SIR2AbPxU0EiMx1fTwzbZXLbkaOcbc2cXx49528d9TGkQVjUINJfUDAnQMVaBFfBDP5xtcHCkZG1n1V3E800U7qXFmGf"
 );
-router.post("", async (req, res) => {
+router.post("/bookcar", async (req, res) => {
   const { token } = req.body;
   try {
     const customer = await stripe.customers.create({
@@ -47,7 +47,30 @@ router.post("", async (req, res) => {
 });
 
 
+router.get("/getallbookings", async(req, res) => {
+
+    try {
+
+        const bookings = await Booking.find().populate('car')
+        res.send(bookings)
+        
+    } catch (error) {
+        return res.status(400).json(error);
+    }
+  
+});
 
 
+
+router.post("/cancelBooking", async (req, res) => {
+  try {
+    await Booking.findOneAndDelete({ _id: req.body.bookingid });
+    
+
+    res.send("Your booking has been cancelled successfully");
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+});
 
 module.exports = router;
