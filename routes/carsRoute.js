@@ -39,4 +39,14 @@ router.get("/getallcars", async (req, res) => {
     }
   });
 
-  module.exports=router
+  router.delete("/deletecar/:carid", async (req, res) => {
+    try {
+      await Car.findOneAndDelete({ _id: req.params.carid });
+  
+      res.send("Car deleted successfully");
+    } catch (error) {
+      return res.status(400).json(error);
+    }
+  });
+  
+  module.exports = router;
