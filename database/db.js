@@ -1,14 +1,10 @@
 const mongoose = require("mongoose");
-
-
-
 function connectDB(){
 
 mongoose.connect('mongodb://127.0.0.1:27017/yours_choice_rental',{
     useNewUrlParser:true,
     useUnifiedTopology : true
 })
-
 
 const connection = mongoose.connection
 
@@ -20,9 +16,6 @@ const connection = mongoose.connection
         console.log('Mongo DB Connection Error')
     })
 
-
 }
-
 connectDB()
-
 module.exports = mongoose

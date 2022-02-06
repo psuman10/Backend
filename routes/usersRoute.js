@@ -7,6 +7,7 @@ const bcryptjs = require("bcryptjs");
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
+    // console.log(username,password);
     const user = await User.findOne({ username });
 
     if (!user)
@@ -15,12 +16,19 @@ router.post("/login", async (req, res) => {
     if (!isMatch)
       return res.status(400).json({ msg: "Password didn't match." });
     if (user) {
-      res.send(user);
+      // res.send(user);
+      return res.send({
+          success: true,
+          user:user
+        
+      });
+
+      return res.status(200).json({ user:user });
     }
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
-});
+}); 
 
 router.post("/register", async (req, res) => {
   try {
@@ -62,22 +70,28 @@ router.get("/getallusers", async (req, res) => {
   }
 });
 
-router.put("/editusers", async (req, res) => {
+router.put("/editusers/:id", async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.body._id });
-    user.username = req.body.username;
-    user.email = req.body.email;
-    user.gender = req.body.gender;
-    user.address = req.body.address;
+    const id = req.params.id;
 
-    await user.save();
-
-    res.send(user);
+  const username = req.body.username;
+    const email = req.body.email;
+    const gender = req.body.gender;
+const address = req.body.address;
+ 
+const result=await User.updateOne({_id:id},{
+  username:username,
+  email:email,
+  address:address,
+  gender:gender
+})
+if(result){
+  res.send({msg:"update successfully"})
+}
   } catch (error) {
     return res.status(400).json(error);
   }
 });
-
 module.exports = router;
 
 

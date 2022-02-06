@@ -4,7 +4,7 @@ const Booking = require("../models/bookingModel");
 const Car = require("../models/carModel");
 const { v4: uuidv4 } = require("uuid");
 const stripe = require("stripe")(
-  "sk_test_51IYnC0SIR2AbPxU0EiMx1fTwzbZXLbkaOcbc2cXx49528d9TGkQVjUINJfUDAnQMVaBFfBDP5xtcHCkZG1n1V3E800U7qXFmGf"
+  "sk_test_51KODU8H1DycL4QJ3HKQFtcTDEFboaMSnNaadXMpzZkeqof9ctyfaJvnE9igjjRWKUVOjjsKZVFp3ZdzEKTPKMDBy00t3AuAZix"
 );
 router.post("/bookcar", async (req, res) => {
   const { token } = req.body;
@@ -17,7 +17,7 @@ router.post("/bookcar", async (req, res) => {
     const payment = await stripe.charges.create(
       {
         amount: req.body.totalAmount * 100,
-        currency: "inr",
+        currency: "AUD",
         customer: customer.id,
         receipt_email: token.email
       },
@@ -46,7 +46,6 @@ router.post("/bookcar", async (req, res) => {
   }
 });
 
-
 router.get("/getallbookings", async(req, res) => {
 
     try {
@@ -59,7 +58,6 @@ router.get("/getallbookings", async(req, res) => {
     }
   
 });
-
 
 
 router.post("/cancelBooking", async (req, res) => {

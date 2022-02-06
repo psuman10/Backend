@@ -16,7 +16,7 @@ router.post("/addcar", async (req, res) => {
 router.get("/getallcars", async (req, res) => {
     try {
       const cars = await Car.find();
-      res.send(cars);
+      res.json({cars:cars});
     } catch (error) {
       return res.status(400).json(error);
     }
