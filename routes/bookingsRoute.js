@@ -19,11 +19,10 @@ router.post("/bookcar", async (req, res) => {
         amount: req.body.totalAmount * 100,
         currency: "AUD",
         customer: customer.id,
-        receipt_email: token.email
+        receipt_email: token.email,
       },
       {
         idempotencyKey: uuidv4(),
-        
       }
     );
 
@@ -46,24 +45,39 @@ router.post("/bookcar", async (req, res) => {
   }
 });
 
-router.get("/getallbookings", async(req, res) => {
-
-    try {
-
-        const bookings = await Booking.find().populate('car')
-        res.send(bookings)
-        
-    } catch (error) {
-        return res.status(400).json(error);
-    }
-  
+router.get("/getallbookings", async (req, res) => {
+  try {
+    const bookings = await Booking.find().populate("car");
+    res.send({bookings:bookings});
+  } catch (error) {
+    return res.status(400).json(error);
+  }
 });
 
+router.post("/bookingcar", async (req, res) => {
+  try {
+    const { start, end, totalHours, totalAmount, user, car } = req.body;
+
+    const newbooking = new Booking({
+      car,
+      user,
+      start,
+      end,
+      totalHours,
+      totalAmount,
+    });
+    const result = await newbooking.save();
+    if (result) {
+      res.send("Booking is successfull");
+    }
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+});
 
 router.post("/cancelBooking", async (req, res) => {
   try {
     await Booking.findOneAndDelete({ _id: req.body.bookingid });
-    
 
     res.send("Your booking has been cancelled successfully");
   } catch (error) {

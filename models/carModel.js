@@ -6,12 +6,12 @@ const carSchema = new mongoose.Schema({
     image : {type : String , required : true} , 
     capacity : {type : Number , required : true},
     fuelType : {type : String , required : true} ,
-    bookedTimeSlots : [
-        {
-            from : {type : String},
-            to : {type : String}
-        }
-    ] , 
+    // bookedTimeSlots : [
+    //     {
+    //         from : {type : String},
+    //         to : {type : String}
+    //     }
+    // ] , 
 
     rentPerHour : {type : Number , required : true} 
 

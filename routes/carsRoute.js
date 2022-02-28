@@ -5,9 +5,18 @@ const Car = require("../models/carModel");
 
 router.post("/addcar", async (req, res) => {
     try {
-      const newcar = new Car(req.body);
-      await newcar.save();
-      res.send("Car added successfully");
+
+      const {image,rentPerHour,capacity,name}=req.body
+      const car = new Car({
+        name,
+        image,
+        capacity,
+        fuelType,
+        rentPerHour,
+      })
+      await car.save();
+     
+      res.send("Car added successfully"); 
     } catch (error) {
       return res.status(400).json(error);
     }
@@ -16,9 +25,18 @@ router.post("/addcar", async (req, res) => {
 router.get("/getallcars", async (req, res) => {
     try {
       const cars = await Car.find();
-      res.json({cars:cars});
+      res.json({success:true,cars:cars});
     } catch (error) {
-      return res.status(400).json(error);
+      return res.status(400).json({error:error,success:false});
+    }
+  });
+  router.get("/getcar/:carid", async (req, res) => {
+    try {
+      const carid=req.params.carid;
+      const car = await Car.findOne({_id:carid});
+      res.json({success:true,car:car});
+    } catch (error) {
+      return res.status(400).json({error:error,success:false});
     }
   });
 

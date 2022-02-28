@@ -5,20 +5,16 @@ const bookingSchema = new mongoose.Schema({
 
       car : {type : mongoose.Schema.Types.ObjectID , ref:'cars'},
       user : {type : mongoose.Schema.Types.ObjectID , ref:'users'},
-      bookedTimeSlots : {
-          from : {type : String} ,
-          to : {type : String}
-      } ,
-      totalHours : {type : Number},
-      totalAmount : {type : Number},
-      transactionId : {type : String},
-      driverRequired : {type : Boolean}
-
-
+      start:{type: String},
+      end:{type: String},
+      totalHours : {type : String},
+      totalAmount : {type : String},
+     transactionId : {type:String, default: "RENTAL"+Math.floor(Math.random() *100000000000000000).toString()},
+      driverRequired : {type : Boolean, default : false},
 },
-  {timestamps : true}
-)
+  {timestamps : true} 
+) 
 
 const bookingModel = mongoose.model('bookings' , bookingSchema)
 
-module.exports = bookingModel
+module.exports = bookingModel 

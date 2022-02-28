@@ -8,8 +8,8 @@ const userSchema = new mongoose.Schema({
      }, 
      password : {type:String , required: true},
      address : {type:String },
-
-
+     role: {type:Number, default:0},
+     
 })
 
 const userModel = mongoose.model('users' , userSchema)

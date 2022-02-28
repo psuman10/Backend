@@ -7,7 +7,7 @@ const bcryptjs = require("bcryptjs");
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
-    // console.log(username,password);
+    
     const user = await User.findOne({ username });
 
     if (!user)
@@ -16,7 +16,6 @@ router.post("/login", async (req, res) => {
     if (!isMatch)
       return res.status(400).json({ msg: "Password didn't match." });
     if (user) {
-      // res.send(user);
       return res.send({
           success: true,
           user:user
@@ -67,6 +66,17 @@ router.get("/getallusers", async (req, res) => {
     res.send(users);
   } catch (error) {
     return res.status(400).json(error);
+  }
+});
+
+
+router.get("/getallusers/:id", async (req, res) => {
+  try {
+    const id=req.params.id;
+    const users = await User.findOne({_id:id});
+    res.json({success:true,user:users});
+  } catch (error) {
+    return res.status(400).json({error:error, success:false});
   }
 });
 
